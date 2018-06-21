@@ -1,0 +1,42 @@
+version: '3'
+services:
+
+  # DB for the INNUENDO application.
+  db_flowcraft:
+    image: postgres:10
+    restart: always
+    volumes:
+      - ./configs/config_flowcraft.py:/FlowCraft_webapp/flowcraft-webapp/flowcraft-webapp/flowcraftapp/settings.py
+    environment:
+      POSTGRES_USER: "assemblerflow"
+      POSTGRES_PASSWORD: "assflow"
+      POSTGRES_DB: "assemblerflow"
+
+  # Service for FlowCraft inspect application
+  flowcraft:
+    build: ./flowcraft-webapp
+    restart: on-failure
+    expose:
+      - "8000"
+    volumes:
+      - ./configs/config_flowcraft.py:/FlowCraft_webapp/flowcraft-webapp/flowcraft-webapp/flowcraftapp/settings.py
+      - flowcraft-content:/FlowCraft_webapp/flowcraft-webapp/flowcraft-webapp/frontend
+    depends_on:
+      - "db_flowcraft"
+      - "web"
+    command: ["init_all"]
+
+  # Service for the nginx web server. it requires mapping of the nginx conf
+  # to be able to access all the other processes from the browser.
+  web:
+    image: nginx:latest
+    restart: on-failure
+    volumes:
+      - ./configs/site.conf:/etc/nginx/conf.d/default.conf
+      - flowcraft-content:/usr/src/flowcraft
+
+    ports:
+      - "80:80"
+
+volumes:
+  flowcraft-content:
