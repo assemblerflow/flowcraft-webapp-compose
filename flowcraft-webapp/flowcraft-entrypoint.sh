@@ -3,7 +3,7 @@
 if [ "$1" = "init_all" ]
 then
     redis-server &
-    cd flowcraft-webapp
+    cd flowcraft-webapp/flowcraft-webapp
     yarn install
     python3 manage.py makemigrations
     python3 manage.py migrate

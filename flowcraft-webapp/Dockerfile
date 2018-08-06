@@ -38,8 +38,10 @@ RUN pipenv install --system --deploy --ignore-pipfile
 
 RUN cd flowcraft-webapp && yarn install --network-timeout 1000000 && exit
 
+WORKDIR /FlowCraft_webapp/
+
 # Copy entrypoint for phyloviz
 COPY flowcraft-entrypoint.sh flowcraft-entrypoint.sh
 RUN chmod +x flowcraft-entrypoint.sh
 
-ENTRYPOINT ["/FlowCraft_webapp/flowcraft-webapp/flowcraft-entrypoint.sh"]
+ENTRYPOINT ["/FlowCraft_webapp/flowcraft-entrypoint.sh"]
