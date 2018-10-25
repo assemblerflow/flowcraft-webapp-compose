@@ -27,7 +27,7 @@ RUN make install
 
 # Clone flowcraft-webapp
 WORKDIR /FlowCraft_webapp/
-RUN git clone https://github.com/assemblerflow/flowcraft-webapp.git && cd flowcraft-webapp && git checkout reports
+RUN git clone https://github.com/assemblerflow/flowcraft-webapp.git
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
