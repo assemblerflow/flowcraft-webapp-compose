@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  # DB for the INNUENDO application.
+  # DB for flowcraft webapp.
   db_flowcraft:
     image: postgres:10
     restart: always
@@ -17,11 +17,9 @@ services:
     build: ./flowcraft-webapp
     restart: on-failure
     volumes:
-      - /Users/bgoncalves/sandbox/repositories/flowcraft-webapp/flowcraft-webapp/frontend:/FlowCraft_webapp/flowcraft-webapp/flowcraft-webapp/frontend
       - ./configs/config_flowcraft.py:/FlowCraft_webapp/flowcraft-webapp/flowcraft-webapp/flowcraftapp/settings.py
     depends_on:
       - "db_flowcraft"
-      #- "web"
     ports:
       - "80:80"
     command: ["init_all"]
